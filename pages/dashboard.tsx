@@ -5,6 +5,7 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import TypewriterText from "@/components/TypewriterText";
 import RealtimeFeed from "@/components/RealtimeFeed";
+import DashboardZoneWidget from "@/components/DashboardZoneWidget";
 
 export default function Dashboard2() {
   const [userData, setUserData] = useState<any>(null);
@@ -266,6 +267,10 @@ export default function Dashboard2() {
           <h3 className="text-lg font-semibold mb-2">📦 Piaci szkenner</h3>
           <p className="text-green-400 font-mono">[STABLE] COIN: 1.0025 DCC</p>
           <p className="text-yellow-300 font-mono">[FLUX] RIFT: 0.88 ↘</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {/* ... korábbi modulok */}
+          <DashboardZoneWidget />
         </div>
       </motion.aside>
     </div>

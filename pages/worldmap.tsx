@@ -4,6 +4,7 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { motion } from "framer-motion";
 import EnergyOverlay from "@/components/EnergyOverlay";
+import ZoneTooltip from "@/components/ZoneTooltip";
 
 type Zone = {
   id: string;
@@ -19,6 +20,7 @@ type Zone = {
 };
 
 export default function WorldMapPage() {
+  const [hoveredZoneId, setHoveredZoneId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [zones, setZones] = useState<Zone[]>([]);
   const [discoveredZones, setDiscoveredZones] = useState<string[]>([]);
@@ -72,6 +74,8 @@ export default function WorldMapPage() {
 
           return (
             <motion.div
+              onMouseEnter={() => setHoveredZoneId(zone.id)}
+              onMouseLeave={() => setHoveredZoneId(null)}
               key={zone.id}
               animate={{
                 scale: unlocked ? [1, 1.08, 1] : 1,
@@ -105,6 +109,10 @@ export default function WorldMapPage() {
               }}
             >
               {unlocked ? zone.name : "🔒 ???"}
+              {hoveredZoneId === zone.id && unlocked && (
+                <ZoneTooltip name={zone.name} description={zone.description} />
+              )}
+
               {hasEvent && (
                 <div
                   className="absolute -top-1 -right-1 bg-black/70 text-red-400 rounded-full text-sm px-[6px] py-[2px] animate-pulse shadow-md z-20"
