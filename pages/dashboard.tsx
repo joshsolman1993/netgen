@@ -6,6 +6,8 @@ import { doc, getDoc } from "firebase/firestore";
 import TypewriterText from "@/components/TypewriterText";
 import RealtimeFeed from "@/components/RealtimeFeed";
 import DashboardZoneWidget from "@/components/DashboardZoneWidget";
+import Link from "next/link";
+import IntroDialogue from "@/components/IntroDialogue";
 
 export default function Dashboard2() {
   const [userData, setUserData] = useState<any>(null);
@@ -51,6 +53,10 @@ export default function Dashboard2() {
             <span className="text-gray-400">Küldetések:</span> {missions}
           </p>
         </div>
+
+        <Link href="/questlog" className="hover:text-cyan-400 transition">
+          📘 Küldetésnapló
+        </Link>
 
         {/* 🧬 Tech Tree Tracker */}
         <div className="mt-8">
@@ -119,7 +125,7 @@ export default function Dashboard2() {
           </h1>
           <p className="text-gray-400">Digitális dominanciád központja</p>
         </motion.div>
-
+        <IntroDialogue />
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-4"
           initial="hidden"

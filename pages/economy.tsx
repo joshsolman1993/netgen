@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "@/lib/firebase";
+import { checkQuestProgress } from "@/lib/quests/checkQuestProgress";
 import {
   doc,
   getDoc,
@@ -49,11 +50,18 @@ export default function EconomyPage() {
       lastClaim: serverTimestamp(),
     });
 
+    // 🔄 Küldetésellenőrzés
+    await checkQuestProgress("collect", {
+      resource: "coin",
+      amount: newBalance,
+    });
+
     setUserData((prev: any) => ({
       ...prev,
       coins: newBalance,
       lastClaim: new Date(),
     }));
+
     setStatusMsg("✅ Sikeresen igényelted a napi 100 ₿ jutalmat!");
     setCanClaim(false);
   };
@@ -61,20 +69,27 @@ export default function EconomyPage() {
   const handleMine = async () => {
     if (!userData) return;
 
-    const minedAmount = Math.floor(Math.random() * 50) + 10;
+    const minedAmount = Math.floor(Math.random() * 1000) + 1000;
     const docRef = doc(db, "users", userData.uid);
+    const newBalance = userData.coins + minedAmount;
 
     await updateDoc(docRef, {
-      coins: userData.coins + minedAmount,
+      coins: newBalance,
       mineLog: arrayUnion({
         amount: minedAmount,
         time: Timestamp.now(),
       }),
     });
 
+    // 🔄 Küldetésellenőrzés
+    await checkQuestProgress("collect", {
+      resource: "coin",
+      amount: newBalance,
+    });
+
     setUserData((prev: any) => ({
       ...prev,
-      coins: prev.coins + minedAmount,
+      coins: newBalance,
       mineLog: [
         ...(prev.mineLog || []),
         { amount: minedAmount, time: new Date() },
