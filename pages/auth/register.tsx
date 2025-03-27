@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -28,16 +29,34 @@ export default function RegisterPage() {
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         createdAt: new Date(),
+
+        // 🧬 Alap profil
         bio: "Üdv a NETGEN világában!",
-        coins: 1000,
         faction: null,
+        class: "Taktikus", // vagy bármi, amit használsz
+
+        // 💰 Gazdasági mezők
+        coins: 1000,
         lastClaim: null,
         mineLog: [],
-        lastClaim: null,
-        mineLog: [],
+
+        // 🧭 Navigáció / világtérkép
         visited: [],
-        completedMissions: [],
+        discoveredZones: [],
+
+        // 📜 Küldetésrendszer
+        activeQuests: ["quest-001"], // vagy amit alapból akarsz
+        completedQuests: [],
+
+        // 🤖 Intro / AI
         introCompleted: false,
+        introAnswers: [],
+        introStats: {
+          economy: 0,
+          stealth: 0,
+          tactics: 0,
+          tech: 0,
+        },
       });
 
       console.log("Sikeres adatmentés Firestore-ba");

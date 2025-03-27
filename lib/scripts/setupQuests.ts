@@ -73,6 +73,16 @@ const quests = [
       item: "Encrypted Insight",
     },
   },
+  {
+    id: "quest-999",
+    title: "🧪 Tesztküldetés",
+    description: "Nyomd meg a tesztgombot a rendszer ellenőrzéséhez.",
+    type: "interact",
+    target: "test-button",
+    reward: {
+      coin: 99,
+    },
+  }
 ];
 
 (async () => {

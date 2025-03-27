@@ -29,6 +29,9 @@ export default function Navbar() {
           <>
             <Link href="/dashboard">Dashboard</Link>
             <Link href="/quests">Küldetések</Link>
+            <Link href="/console" className="hover:text-cyan-400">
+              🤖 Konzol
+            </Link>
             <Link href="/zones">Zónák</Link>
             <Link href="/worldmap">Világtérkép</Link>
             <Link href="/economy">Coin-kezelés</Link>
